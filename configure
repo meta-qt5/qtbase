@@ -1980,6 +1980,13 @@ while [ "$#" -gt 0 ]; do
             UNKNOWN_OPT=yes
         fi
         ;;
+    pulseaudio)
+        if [ "$VAL" = "yes" ] || [ "$VAL" = "no" ]; then
+            CFG_PULSEAUDIO="$VAL"
+        else
+            UNKNOWN_OPT=yes
+        fi
+        ;;
     gtkstyle)
         if [ "$VAL" = "yes" ] || [ "$VAL" = "no" ]; then
             CFG_QGTKSTYLE="$VAL"
