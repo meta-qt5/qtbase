@@ -163,7 +163,10 @@ void QLibrarySettings::load()
 
 QSettings *QLibraryInfoPrivate::findConfiguration()
 {
-    QString qtconfig = QStringLiteral(":/qt/etc/qt.conf");
+    QByteArray config = getenv("QT_CONF_PATH");
+    QString qtconfig = QFile::decodeName(config);
+    if(!QFile::exists(qtconfig))
+        qtconfig = QStringLiteral(":/qt/etc/qt.conf");
     if (QFile::exists(qtconfig))
         return new QSettings(qtconfig, QSettings::IniFormat);
 #ifdef QT_BUILD_QMAKE
