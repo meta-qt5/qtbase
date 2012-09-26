@@ -174,7 +174,10 @@ void QLibrarySettings::load()
 QSettings *QLibraryInfoPrivate::findConfiguration()
 {
 #ifdef QT_BUILD_QMAKE
-    QString qtconfig = qmake_libraryInfoFile();
+    QByteArray config = getenv("OE_QMAKE_QTCONF_PATH");
+    QString qtconfig = QFile::decodeName(config);
+    if(qtconfig.isEmpty() || !QFile::exists(qtconfig))
+        qtconfig = qmake_libraryInfoFile();
     if (QFile::exists(qtconfig))
         return new QSettings(qtconfig, QSettings::IniFormat);
 #else
