@@ -138,7 +138,10 @@ QLibrarySettings::QLibrarySettings()
 
 QSettings *QLibraryInfoPrivate::findConfiguration()
 {
-    QString qtconfig = QStringLiteral(":/qt/etc/qt.conf");
+    QByteArray config = getenv("QT_CONF_PATH");
+    QString qtconfig = QFile::decodeName(config);
+    if(!QFile::exists(qtconfig))
+        qtconfig = QStringLiteral(":/qt/etc/qt.conf");
 #ifdef QT_BOOTSTRAPPED
     if(!QFile::exists(qtconfig))
         qtconfig = qt_libraryInfoFile();
