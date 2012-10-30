@@ -3675,7 +3675,7 @@ setBootstrapEvalVariable()
 
 
 # build qmake
-if true; then ###[ '!' -f "$outpath/bin/qmake" ];
+if false; then ###[ '!' -f "$outpath/bin/qmake" ];
     echo "Creating qmake..."
 
     mkdir -p "$outpath/qmake" || exit
