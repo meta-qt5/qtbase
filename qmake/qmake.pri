@@ -80,7 +80,8 @@ bootstrap { #Qt code
         qjsonparser.cpp \
         qjsonarray.cpp \
         qjsonobject.cpp \
-        qjsonvalue.cpp
+        qjsonvalue.cpp \
+        qdebug.cpp
 
    HEADERS+= \
         qbitarray.h \

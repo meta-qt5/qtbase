@@ -8,6 +8,7 @@ CONFIG -= qt
 DEFINES += \
     QT_BUILD_QMAKE \
     PROEVALUATOR_FULL
+TARGET = qmake
 
 VPATH += \
     ../src/corelib/global \
