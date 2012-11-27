@@ -122,7 +122,7 @@ contains(QT_CONFIG, concurrent):SUBDIRS += src_concurrent
     contains(QT_CONFIG, opengl(es1|es2)?):SUBDIRS += src_openglextensions
     src_plugins.depends += src_gui src_platformsupport
     !contains(QT_CONFIG, no-widgets) {
-        SUBDIRS += src_tools_uic src_widgets
+        SUBDIRS += src_widgets
         src_plugins.depends += src_widgets
         contains(QT_CONFIG, opengl(es1|es2)?) {
             SUBDIRS += src_opengl
@@ -134,7 +134,7 @@ contains(QT_CONFIG, concurrent):SUBDIRS += src_concurrent
         }
     }
 }
-SUBDIRS += src_plugins src_tools_qdoc
+SUBDIRS += src_plugins src_tools_qdoc src_tools_uic
 
 nacl: SUBDIRS -= src_network src_testlib
 
