@@ -3951,6 +3951,7 @@ fi
 addConfStr "$QT_REL_HOST_BINS"
 addConfStr "$QT_REL_HOST_LIBS"
 addConfStr "$QT_REL_HOST_DATA"
+addConfStr "$QT_EXTERNAL_HOST_BINS"
 addConfStr "$shortxspec"
 addConfStr "$shortspec"
 

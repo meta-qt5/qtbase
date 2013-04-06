@@ -81,6 +81,7 @@ public:
         HostBinariesPath,
         HostLibrariesPath,
         HostDataPath,
+        ExternalHostBinariesPath,
         TargetSpecPath,
         HostSpecPath,
         HostPrefixPath,
