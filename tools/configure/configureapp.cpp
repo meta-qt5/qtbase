@@ -1253,6 +1253,13 @@ void Configure::parseCmdLine()
             dictionary[ "QT_EXT_PREFIX" ] = configCmdLine.at(i);
         }
 
+        else if (configCmdLine.at(i) == "-external-hostbindir") {
+            ++i;
+            if (i == argCount)
+                break;
+            dictionary[ "QT_EXTERNAL_HOST_BINS" ] = configCmdLine.at(i);
+        }
+
         else if (configCmdLine.at(i) == "-make-tool") {
             ++i;
             if (i == argCount)
@@ -4253,6 +4260,9 @@ void Configure::generateQConfigCpp()
 
     if (dictionary["QT_REL_HOST_DATA"].isEmpty())
         dictionary["QT_REL_HOST_DATA"] = haveHpx ? "." : dictionary["QT_REL_INSTALL_ARCHDATA"];
+    
+    if (dictionary["QT_EXTERNAL_HOST_BINS"].isEmpty())
+        dictionary["QT_EXTERNAL_HOST_BINS"] = haveHpx ? "bin" : dictionary["QT_REL_INSTALL_BINS"];
 
     confStringOff = 0;
     addConfStr(0, dictionary["QT_REL_INSTALL_DOCS"]);
@@ -4272,6 +4282,7 @@ void Configure::generateQConfigCpp()
     addConfStr(1, dictionary["QT_REL_HOST_BINS"]);
     addConfStr(1, dictionary["QT_REL_HOST_LIBS"]);
     addConfStr(1, dictionary["QT_REL_HOST_DATA"]);
+    addConfStr(1, dictionary["QT_EXTERNAL_HOST_BINS"]);
     addConfStr(1, targSpec);
     addConfStr(1, hostSpec);
 
