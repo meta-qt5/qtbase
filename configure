@@ -1046,6 +1046,7 @@ QT_HOST_PREFIX=
 QT_HOST_BINS=
 QT_HOST_LIBS=
 QT_HOST_DATA=
+QT_EXTERNAL_HOST_BINS=
 
 #flags for SQL drivers
 QT_CFLAGS_PSQL=
@@ -1170,6 +1171,7 @@ while [ "$#" -gt 0 ]; do
     -testsdir| \
     -hostdatadir| \
     -hostbindir| \
+    -external-hostbindir| \
     -hostlibdir| \
     -sysroot| \
     -depths| \
@@ -1378,6 +1380,9 @@ while [ "$#" -gt 0 ]; do
         ;;
     hostlibdir)
         QT_HOST_LIBS="$VAL"
+        ;;
+    external-hostbindir)
+        QT_EXTERNAL_HOST_BINS="$VAL"
         ;;
     pkg-config)
         if [ "$VAL" = "yes" ] || [ "$VAL" = "no" ]; then
@@ -3248,6 +3253,11 @@ if [ "$CFG_COMPILE_EXAMPLES" = "yes" ]; then
     QMAKE_CONFIG="$QMAKE_CONFIG compile_examples"
 fi
 
+# default is empty, don't call makeabs if it is empty
+if [ ! -z "$QT_EXTERNAL_HOST_BINS" ]; then
+    QT_EXTERNAL_HOST_BINS=`"$relpath/config.tests/unix/makeabs" "$QT_EXTERNAL_HOST_BINS"`
+fi
+
 #-------------------------------------------------------------------------------
 # help - interactive parts of the script _after_ this section please
 #-------------------------------------------------------------------------------
@@ -3415,6 +3425,9 @@ Installation options:
                          (default HOSTPREFIX/lib)
     -hostdatadir <dir> . Data used by qmake will be installed to <dir>
                          (default HOSTPREFIX)
+
+    -external-hostbindir <dir> Use external host executables instead of building them
+                         (not used by defaut)
 
 Configure options:
 
@@ -3931,6 +3944,7 @@ static const char qt_configure_prefix_path_strs[][256 + 12] = {
     "qt_hbinpath=$QT_HOST_BINS",
     "qt_hlibpath=$QT_HOST_LIBS",
     "qt_hdatpath=$QT_HOST_DATA",
+    "qt_ebinpath=$QT_EXTERNAL_HOST_BINS",
     "qt_targspec=$shortxspec",
     "qt_hostspec=$shortspec",
 #endif

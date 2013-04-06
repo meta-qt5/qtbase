@@ -1162,6 +1162,13 @@ void Configure::parseCmdLine()
             dictionary[ "QT_HOST_DATA" ] = configCmdLine.at(i);
         }
 
+        else if (configCmdLine.at(i) == "-external-hostbindir") {
+            ++i;
+            if (i == argCount)
+                break;
+            dictionary[ "QT_EXTERNAL_HOST_BINS" ] = configCmdLine.at(i);
+        }
+
         else if (configCmdLine.at(i) == "-make-tool") {
             ++i;
             if (i == argCount)
@@ -3715,6 +3722,7 @@ void Configure::generateQConfigCpp()
                   << "    \"qt_hbinpath=" << formatPath(dictionary["QT_HOST_BINS"]) << "\"," << endl
                   << "    \"qt_hlibpath=" << formatPath(dictionary["QT_HOST_LIBS"]) << "\"," << endl
                   << "    \"qt_hdatpath=" << formatPath(dictionary["QT_HOST_DATA"]) << "\"," << endl
+                  << "    \"qt_ebinpath=" << formatPath(dictionary["QT_EXTERNAL_HOST_BINS"]) << "\"," << endl
                   << "    \"qt_targspec=" << targSpec << "\"," << endl
                   << "    \"qt_hostspec=" << hostSpec << "\"," << endl
                   << "#endif" << endl
