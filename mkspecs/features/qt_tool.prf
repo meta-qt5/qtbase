@@ -12,11 +12,11 @@
 load(qt_app)
 
 CONFIG += console
+QT_EXTERNAL_HOST_BINS = $$[QT_EXTERNAL_HOST_BINS]
 
 # If we are doing a prefix build, create a "module" pri which enables
 # qtPrepareTool() to work with the non-installed build.
-# Non-bootstrapped tools always need this because of the environment setup.
-!build_pass:if(!host_build|!force_bootstrap|force_independent) {
+!build_pass:if(!host_build|!force_bootstrap|force_independent):isEmpty(QT_EXTERNAL_HOST_BINS) {
     isEmpty(MODULE):MODULE = $$TARGET
 
     !host_build|!force_bootstrap: MODULE_DEPENDS = $$replace(QT, -private$, _private)

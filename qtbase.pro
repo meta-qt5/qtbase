@@ -69,18 +69,25 @@ CONFIG -= qt
 
 ### installations ####
 
+QT_EXTERNAL_HOST_BINS = $$[QT_EXTERNAL_HOST_BINS]
+
 #qmake
 qmake.path = $$[QT_HOST_BINS]
+qmake.files = $$OUT_PWD/bin/qmake
+!isEmpty(QT_EXTERNAL_HOST_BINS) {
+   qmake.files = $$[QT_EXTERNAL_HOST_BINS]/qmake
+}
 equals(QMAKE_HOST.os, Windows) {
-   qmake.files = $$OUT_PWD/bin/qmake.exe
-} else {
-   qmake.files = $$OUT_PWD/bin/qmake
+   qmake.files = $${qmake.files}.exe
 }
 INSTALLS += qmake
 
 #syncqt
 syncqt.path = $$[QT_HOST_BINS]
 syncqt.files = $$PWD/bin/syncqt.pl
+!isEmpty(QT_EXTERNAL_HOST_BINS) {
+   syncqt.files = $$[QT_EXTERNAL_HOST_BINS]/syncqt.pl
+}
 INSTALLS += syncqt
 
 # If we are doing a prefix build, create a "module" pri which enables
