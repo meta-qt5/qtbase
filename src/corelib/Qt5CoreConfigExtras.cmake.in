@@ -5,7 +5,7 @@ if (NOT TARGET Qt5::qmake)
 !!IF isEmpty(CMAKE_BIN_DIR_IS_ABSOLUTE)
     set(imported_location \"${_qt5Core_install_prefix}/$${CMAKE_BIN_DIR}qmake$$CMAKE_BIN_SUFFIX\")
 !!ELSE
-    set(imported_location \"$${CMAKE_BIN_DIR}qmake$$CMAKE_BIN_SUFFIX\")
+    set(imported_location \"${OE_QMAKE_PATH_EXTERNAL_HOST_BINS}/qmake$$CMAKE_BIN_SUFFIX\")
 !!ENDIF
     _qt5_Core_check_file_exists(${imported_location})
 
@@ -20,7 +20,7 @@ if (NOT TARGET Qt5::moc)
 !!IF isEmpty(CMAKE_BIN_DIR_IS_ABSOLUTE)
     set(imported_location \"${_qt5Core_install_prefix}/$${CMAKE_BIN_DIR}moc$$CMAKE_BIN_SUFFIX\")
 !!ELSE
-    set(imported_location \"$${CMAKE_BIN_DIR}moc$$CMAKE_BIN_SUFFIX\")
+    set(imported_location \"${OE_QMAKE_PATH_EXTERNAL_HOST_BINS}/moc$$CMAKE_BIN_SUFFIX\")
 !!ENDIF
     _qt5_Core_check_file_exists(${imported_location})
 
@@ -37,7 +37,7 @@ if (NOT TARGET Qt5::rcc)
 !!IF isEmpty(CMAKE_BIN_DIR_IS_ABSOLUTE)
     set(imported_location \"${_qt5Core_install_prefix}/$${CMAKE_BIN_DIR}rcc$$CMAKE_BIN_SUFFIX\")
 !!ELSE
-    set(imported_location \"$${CMAKE_BIN_DIR}rcc$$CMAKE_BIN_SUFFIX\")
+    set(imported_location \"${OE_QMAKE_PATH_EXTERNAL_HOST_BINS}/rcc$$CMAKE_BIN_SUFFIX\")
 !!ENDIF
     _qt5_Core_check_file_exists(${imported_location})
 
