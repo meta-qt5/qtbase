@@ -193,7 +193,7 @@ defineTest(qtAddRpathLink) {
 defineTest(qtPrepareTool) {
     cmd = $$eval(QT_TOOL.$${2}.binary)
     isEmpty(cmd) {
-        cmd = $$[QT_HOST_BINS]/$$2
+        cmd = $$[QT_EXTERNAL_HOST_BINS]/$$2
         exists($${cmd}.pl) {
             cmd = perl -w $$system_path($${cmd}.pl)
         } else: contains(QMAKE_HOST.os, Windows) {
