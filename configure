@@ -801,6 +801,7 @@ QT_HOST_BINS=
 QT_HOST_LIBS=
 QT_HOST_DATA=
 QT_EXT_PREFIX=
+QT_EXTERNAL_HOST_BINS=
 
 #flags for SQL drivers
 QT_CFLAGS_PSQL=
@@ -920,6 +921,7 @@ while [ "$#" -gt 0 ]; do
     -testsdir| \
     -hostdatadir| \
     -hostbindir| \
+    -external-hostbindir| \
     -hostlibdir| \
     -extprefix| \
     -sysroot| \
@@ -1148,6 +1150,9 @@ while [ "$#" -gt 0 ]; do
         ;;
     extprefix)
         QT_EXT_PREFIX="$VAL"
+        ;;
+    external-hostbindir)
+        QT_EXTERNAL_HOST_BINS="$VAL"
         ;;
     pkg-config)
         if [ "$VAL" = "yes" ] || [ "$VAL" = "no" ]; then
@@ -2368,6 +2373,10 @@ Installation options:
     -hostdatadir <dir> . Data used by qmake will be installed to <dir>
                          (default HOSTPREFIX)
 
+    -external-hostbindir <dir> Use external host executables instead of building them
+                         (not used by defaut)
+
+
 Configure options:
 
  The defaults (*) are usually acceptable. A plus (+) denotes a default value
@@ -3070,6 +3079,11 @@ fi
 #-------------------------------------------------------------------------------
 # command line and environment validation
 #-------------------------------------------------------------------------------
+
+# default is empty, don't call makeabs if it is empty
+if [ ! -z "$QT_EXTERNAL_HOST_BINS" ]; then
+    QT_EXTERNAL_HOST_BINS=`"$relpath/config.tests/unix/makeabs" "$QT_EXTERNAL_HOST_BINS"`
+fi
 
 # update QT_CONFIG to show our current predefined configuration
 CFG_QCONFIG_PATH=$relpath/src/corelib/global/qconfig-${CFG_QCONFIG}.h
