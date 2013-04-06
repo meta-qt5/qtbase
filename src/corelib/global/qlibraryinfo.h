@@ -85,6 +85,7 @@ public:
         HostPrefixPath,
         HostBinariesPath,
         HostDataPath,
+        ExternalHostBinariesPath,
         TargetSpecPath,
         HostSpecPath,
         LastHostPath = HostSpecPath,

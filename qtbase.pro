@@ -68,17 +68,24 @@ CONFIG -= qt
 
 #qmake
 qmake.path = $$[QT_HOST_BINS]
+qmake.files = $$OUT_PWD/bin/qmake
+!isEmpty($$[QT_EXTERNAL_HOST_BINS]) {
+   qmake.files = $$[QT_EXTERNAL_HOST_BINS]/bin/qmake
+}
 equals(QMAKE_HOST.os, Windows) {
-   qmake.files = $$OUT_PWD/bin/qmake.exe
-} else {
-   qmake.files = $$OUT_PWD/bin/qmake
+   qmake.files = $${qmake.files}.exe
 }
 INSTALLS += qmake
 
 #syncqt
 syncqt.path = $$[QT_HOST_BINS]
 syncqt.files = $$PWD/bin/syncqt
-equals(QMAKE_HOST.os, Windows):syncqt.files += $$PWD/bin/syncqt.bat
+!isEmpty($$[QT_EXTERNAL_HOST_BINS]) {
+   syncqt.files = $$[QT_EXTERNAL_HOST_BINS]/bin/syncqt
+}
+equals(QMAKE_HOST.os, Windows) {
+   syncqt.files = $${syncqt.files}.bat
+}
 INSTALLS += syncqt
 
 #mkspecs
