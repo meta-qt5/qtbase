@@ -270,7 +270,7 @@ QLibraryInfo::isDebugBuild()
  */
 
 static const struct {
-    char key[19], value[13];
+    char key[21], value[13];
 } qtConfEntries[] = {
     { "Prefix", "." },
     { "Documentation", "doc" }, // should be ${Data}/doc
@@ -295,6 +295,7 @@ static const struct {
     { "HostPrefix", "" },
     { "HostBinaries", "bin" },
     { "HostData", "." },
+    { "ExternalHostBinaries", "" },
     { "TargetSpec", "" },
     { "HostSpec", "" },
 #endif
