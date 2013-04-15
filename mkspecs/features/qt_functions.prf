@@ -69,7 +69,7 @@ defineTest(qtHaveModule) {
 defineTest(qtPrepareTool) {
     cmd = $$eval(QT_TOOL.$${2}.binary)
     isEmpty(cmd) {
-        cmd = $$[QT_HOST_BINS]/$$2
+        cmd = $$[QT_HOST_BINS/get]/$$2
         exists($${cmd}.pl) {
             $${1}_EXE = $${cmd}.pl
             cmd = perl -w $$system_path($${cmd}.pl)
