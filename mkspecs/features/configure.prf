@@ -63,12 +63,12 @@ defineTest(qtCompileTest) {
     }
 
     # Clean up after previous run
-    exists($$test_out_dir/Makefile):qtRunLoggedCommand("$$test_cmd_base $$QMAKE_MAKE distclean")
+    exists($$test_out_dir/Makefile):qtRunLoggedCommand("$$test_cmd_base $$QMAKE_MAKE $$(QMAKE_MAKE_ARGS) distclean")
 
     mkpath($$test_out_dir)|error("Aborting.")
 
     qtRunLoggedCommand("$$test_cmd_base $$system_quote($$system_path($$QMAKE_QMAKE)) -spec $$QMAKESPEC $$qmake_configs $$shell_quote($$test_dir)") {
-        qtRunLoggedCommand("$$test_cmd_base $$QMAKE_MAKE") {
+        qtRunLoggedCommand("$$test_cmd_base $$QMAKE_MAKE $$(QMAKE_MAKE_ARGS)") {
             log("yes$$escape_expand(\\n)")
             msg = "test $$1 succeeded"
             write_file($$QMAKE_CONFIG_LOG, msg, append)
