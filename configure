@@ -324,6 +324,16 @@ getQMakeConf()
     getSingleQMakeVariable "$1" "$specvals"
 }
 
+# OE qmake.conf is reading some variables from shell env
+# read them from qmake.conf, replace qmake () syntax with shell and eval
+getQEvalMakeConf()
+{
+    VAL=`getQMakeConf "$1" | sed -n 's/$[(]\([0-9a-zA-Z_]*\)[)]/$\1/pg'`
+    EVAL=`eval "echo ${VAL}"`
+#    echo "Running getQEvalMakeConf: var='$1', val='`getQMakeConf \"$1\"`, val-sed='$VAL', eval='$EVAL'" >&2
+    eval "echo ${VAL}"
+}
+
 getXQMakeConf()
 {
     if [ -z "$xspecvals" ]; then
@@ -331,6 +341,16 @@ getXQMakeConf()
         if [ "$XPLATFORM_MAC" = "yes" ]; then xspecvals=$(macSDKify "$xspecvals"); fi
     fi
     getSingleQMakeVariable "$1" "$xspecvals"
+}
+
+# OE qmake.conf is reading some variables from shell env
+# read them from qmake.conf, replace qmake () syntax with shell and eval
+getXQEvalMakeConf()
+{
+    VAL=`getXQMakeConf "$1" | sed -n 's/$[(]\([0-9a-zA-Z_]*\)[)]/$\1/pg'`
+    EVAL=`eval "echo ${VAL}"`
+#    echo "Running getXQEvalMakeConf: var='$1', val='`getXQMakeConf \"$1\"`, val-sed='$VAL', eval='$EVAL'" >&2
+    eval "echo ${VAL}"
 }
 
 compilerSupportsFlag()
@@ -548,21 +568,19 @@ fi
 # initalize variables
 #-------------------------------------------------------------------------------
 
-SYSTEM_VARIABLES="RANLIB STRIP OBJDUMP LD CC CXX CFLAGS CXXFLAGS LDFLAGS"
-for varname in $SYSTEM_VARIABLES; do
+# Export all OE variables for qmake.conf from shell env to QMakeVars
+OE_VARIABLES="AR CC CFLAGS COMPILER CXX CXXFLAGS LDFLAGS LINK QT_CONFIG STRIP"
+for varname in $OE_VARIABLES; do
     qmakevarname="${varname}"
-    # use LDFLAGS for autoconf compat, but qmake uses QMAKE_LFLAGS
-    if [ "${varname}" = "LDFLAGS" ]; then
-        qmakevarname="LFLAGS"
-    elif [ "${varname}" = "LD" ]; then
-        qmakevarname="LINK"
-    fi
     cmd=`echo \
-'if [ -n "\$'${varname}'" ]; then
-    QMakeVar set QMAKE_'${qmakevarname}' "\$'${varname}'"
+'if [ -n "\$OE_QMAKE_'${varname}'" ]; then
+    QMakeVar set OE_QMAKE_'${qmakevarname}' "\$OE_QMAKE_'${varname}'"
+#    echo "Exporting OE_QMAKE_'${qmakevarname}' value=\"\$OE_QMAKE_'${varname}'\"" >&2
 fi'`
     eval "$cmd"
 done
+
+SYSTEM_VARIABLES="RANLIB STRIP OBJDUMP LD CC CXX CFLAGS CXXFLAGS LDFLAGS"
 # Use CC/CXX to run config.tests
 mkdir -p "$outpath/config.tests"
 rm -f "$outpath/config.tests/.qmake.cache"
@@ -3140,7 +3158,7 @@ if [ "$XPLATFORM_MAC" = "yes" ]; then
     [ "$CFG_QGTKSTYLE" = "auto" ] && CFG_QGTKSTYLE=no
 fi
 
-QMAKE_CONF_COMPILER=`getXQMakeConf QMAKE_CXX`
+QMAKE_CONF_COMPILER=`getXQEvalMakeConf QMAKE_CXX`
 
 TEST_COMPILER=$QMAKE_CONF_COMPILER
 
@@ -3175,7 +3193,7 @@ if [ "$XPLATFORM_SYMBIAN_SBSV2" = "no" ]; then
         exit 1
     fi
 fi
-TEST_COMPILER_CXXFLAGS=`getXQMakeConf QMAKE_CXXFLAGS`
+TEST_COMPILER_CXXFLAGS=`getXQEvalMakeConf QMAKE_CXXFLAGS`
 
 GCC_MACHINE_DUMP=
 case "$TEST_COMPILER" in *g++) GCC_MACHINE_DUMP=$($TEST_COMPILER -dumpmachine);; esac
@@ -3633,6 +3651,14 @@ setBootstrapVariable()
     getQMakeConf "$1" | echo ${2-$1} = `if [ -n "$3" ]; then sed "$3"; else cat; fi` >> "$mkfile"
 }
 
+# OE qmake.conf is reading some variables from shell env
+# read them from qmake.conf, replace qmake () syntax with shell and eval
+setBootstrapEvalVariable()
+{
+    getQEvalMakeConf "$1" | echo ${2-$1} = `if [ -n "$3" ]; then sed "$3"; else cat; fi` >> "$mkfile"
+}
+
+
 # build qmake
 if true; then ###[ '!' -f "$outpath/bin/qmake" ];
     echo "Creating qmake..."
@@ -3671,14 +3697,14 @@ if true; then ###[ '!' -f "$outpath/bin/qmake" ];
         fi
 
         [ "$CFG_SILENT" = "yes" ] && CC_TRANSFORM='s,^,\@,' || CC_TRANSFORM=
-        setBootstrapVariable QMAKE_CC CC "$CC_TRANSFORM"
-        setBootstrapVariable QMAKE_CXX CXX "$CC_TRANSFORM"
-        setBootstrapVariable QMAKE_CFLAGS
-        setBootstrapVariable QMAKE_CFLAGS_SPLIT_SECTIONS
-        setBootstrapVariable QMAKE_CXXFLAGS
-        setBootstrapVariable QMAKE_CXXFLAGS_SPLIT_SECTIONS
-        setBootstrapVariable QMAKE_LFLAGS
-        setBootstrapVariable QMAKE_LFLAGS_GCSECTIONS
+        setBootstrapEvalVariable QMAKE_CC CC "$CC_TRANSFORM"
+        setBootstrapEvalVariable QMAKE_CXX CXX "$CC_TRANSFORM"
+        setBootstrapEvalVariable QMAKE_CFLAGS
+        setBootstrapEvalVariable QMAKE_CFLAGS_SPLIT_SECTIONS
+        setBootstrapEvalVariable QMAKE_CXXFLAGS
+        setBootstrapEvalVariable QMAKE_CXXFLAGS_SPLIT_SECTIONS
+        setBootstrapEvalVariable QMAKE_LFLAGS
+        setBootstrapEvalVariable QMAKE_LFLAGS_GCSECTIONS
 
         if [ "$CFG_RELEASE_QMAKE" = "yes" ]; then
             setBootstrapVariable QMAKE_CFLAGS_RELEASE
