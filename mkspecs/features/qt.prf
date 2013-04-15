@@ -147,7 +147,7 @@ import_plugins:qtConfig(static) {
         !isEmpty(plug_type) {
             plug_path = $$eval(QT_PLUGIN.$${plug}.PATH)
             isEmpty(plug_path): \
-                plug_path = $$[QT_INSTALL_PLUGINS/get]
+                plug_path = $$[QT_INSTALL_PLUGINS]
             LIBS += -L$$plug_path/$$plug_type
         }
         LIBS += -l$${plug}$$qtPlatformTargetSuffix()
@@ -277,8 +277,8 @@ for(ever) {
 # static builds: link qml import plugins into the target.
 contains(all_qt_module_deps, qml): \
         qtConfig(static):import_plugins:!host_build:!no_import_scan {
-    exists($$[QT_INSTALL_QML/get]): \
-        QMLPATHS *= $$[QT_INSTALL_QML/get]
+    exists($$[QT_INSTALL_QML]): \
+        QMLPATHS *= $$[QT_INSTALL_QML]
 
     # run qmlimportscanner
     qtPrepareTool(QMLIMPORTSCANNER, qmlimportscanner, , system)
