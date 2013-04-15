@@ -712,7 +712,7 @@ fi
 # is where the resulting variable is written to
 setBootstrapVariable()
 {
-    getQMakeConf "$1" | echo ${2-$1} = `if [ -n "$3" ]; then sed "$3"; else cat; fi` >> "$mkfile"
+    getQMakeConf "$1" | sed 's:\$\$(:\$(:' | echo ${2-$1} = `if [ -n "$3" ]; then sed "$3"; else cat; fi` >> "$mkfile"
 }
 
 # build qmake
