@@ -195,7 +195,11 @@ defineTest(qtPrepareTool) {
     $$1 = $$eval(QT_TOOL.$${2}.binary)
     isEmpty($$1) {
         $$1 = $$[QT_EXTERNAL_HOST_BINS]/$$2
-        isEmpty($$[QT_EXTERNAL_HOST_BINS]) {
+        # for some reason isEmpty does not work here, FIXME before submitting upstream
+        # DEBUG 1: mkspecs/features/qt_functions.prf:198: calling built-in isEmpty(/OE/oe-core/tmp-eglibc/sysroots/x86_64-linux/usr/bin/qt5)
+        # DEBUG 1: mkspecs/features/qt_functions.prf:198: test function returned true
+        # DEBUG 1: mkspecs/features/qt_functions.prf:198: taking 'then' branch
+        !exists($$[QT_EXTERNAL_HOST_BINS]/$$2) {
             $$1 = $$[QT_HOST_BINS]/$$2
         }
         exists($$eval($$1).pl) {
