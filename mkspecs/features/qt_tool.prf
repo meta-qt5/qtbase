@@ -31,7 +31,7 @@ load(qt_targets)
 
 # If we are doing a prefix build, create a "module" pri which enables
 # qtPrepareTool() to work with the non-installed build.
-!build_pass:!exists($$[QT_INSTALL_PREFIX]/.qmake.cache):isEmpty($$[QT_EXTERNAL_HOST_BINS]) {
+!build_pass:!exists($$[QT_INSTALL_PREFIX]/.qmake.cache):!exists($$[QT_EXTERNAL_HOST_BINS]) {
 
     isEmpty(MODULE):MODULE = $$TARGET
 
