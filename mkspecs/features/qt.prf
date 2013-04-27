@@ -318,6 +318,19 @@ contains(TEMPLATE, .*app) {
     QTPLUGIN = $$manualplugs $$autoplugs
 }
 
+contains(TEMPLATE, .*lib) {
+    pkgconfig_prefix_replace.match = "prefix=$$[QT_SYSROOT]"
+    pkgconfig_prefix_replace.replace = "prefix="
+    pkgconfig_prefix_replace.CONFIG = path
+    QMAKE_PKGCONFIG_INSTALL_REPLACE += pkgconfig_prefix_replace
+
+    # drop -L/usr/lib in .prl files
+    prl_replace.match = "-L\$${libdir}"
+    prl_replace.replace = ""
+    prl_replace.CONFIG = path
+    QMAKE_PRL_INSTALL_REPLACE += prl_replace
+}
+
 QT_PLUGIN_VERIFY = DEPLOYMENT_PLUGIN
 contains(QT_CONFIG, static) {
     QT_PLUGIN_VERIFY += QTPLUGIN
