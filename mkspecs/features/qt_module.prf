@@ -273,6 +273,22 @@ load(qt_targets)
         ltlib_replace.replace = $$QMAKE_LIBTOOL_LIBDIR
     ltlib_replace.CONFIG = path
     QMAKE_LIBTOOL_INSTALL_REPLACE += ltlib_replace
+
+    pkgconfig_include_replace.match = $$rplbase/include
+    pkgconfig_include_replace.replace = "\$$\\{includedir}"
+    pkgconfig_include_replace.CONFIG = path
+    QMAKE_PKGCONFIG_INSTALL_REPLACE += pkgconfig_include_replace
+
+    pkgconfig_prefix_replace.match = "prefix=$$[QT_SYSROOT]"
+    pkgconfig_prefix_replace.replace = "prefix="
+    pkgconfig_prefix_replace.CONFIG = path
+    QMAKE_PKGCONFIG_INSTALL_REPLACE += pkgconfig_prefix_replace
+
+    # drop -L/usr/lib in .prl files
+    prl_replace.match = "-L\$${libdir}"
+    prl_replace.replace = ""
+    prl_replace.CONFIG = path
+    QMAKE_PRL_INSTALL_REPLACE += prl_replace
 }
 
 contains(QT_PRODUCT, OpenSource.*):DEFINES *= QT_OPENSOURCE
