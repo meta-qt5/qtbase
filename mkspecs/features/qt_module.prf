@@ -188,10 +188,24 @@ unix|mingw {
         QMAKE_PKGCONFIG_DESCRIPTION = $$replace(TARGET, ^Qt, "Qt ") module
     QMAKE_PKGCONFIG_INSTALL_REPLACE += lib_replace
 
+    pkgconfig_include_replace.match = $$rplbase/include
+    pkgconfig_include_replace.replace = "\$$\\{includedir}"
+    pkgconfig_include_replace.CONFIG = path
+    QMAKE_PKGCONFIG_INSTALL_REPLACE += pkgconfig_include_replace
+
+    pkgconfig_lib_replace.match = $$rplbase/lib
+    pkgconfig_lib_replace.replace = "\$$\\{libdir}"
+    pkgconfig_lib_replace.CONFIG = path
+    QMAKE_PKGCONFIG_INSTALL_REPLACE += pkgconfig_lib_replace
+
     unix {
         CONFIG += create_libtool explicitlib
         QMAKE_LIBTOOL_LIBDIR = $$qt_libdir
         QMAKE_LIBTOOL_INSTALL_REPLACE += lib_replace
+        lafile_replace.match = "-L$$[QT_INSTALL_LIBS/raw]"
+        lafile_replace.replace = ""
+        lafile_replace.CONFIG = path
+        QMAKE_LIBTOOL_INSTALL_REPLACE += lafile_replace
     }
 }
 
