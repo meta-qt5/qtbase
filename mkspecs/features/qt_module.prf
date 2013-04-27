@@ -199,6 +199,11 @@ unix|mingw {
     pclib_replace.CONFIG = path
     QMAKE_PKGCONFIG_INSTALL_REPLACE += pclib_replace
 
+    pkgconfig_include_replace.match = $$rplbase/include
+    pkgconfig_include_replace.replace = "\$$\\{includedir}"
+    pkgconfig_include_replace.CONFIG = path
+    QMAKE_PKGCONFIG_INSTALL_REPLACE += pkgconfig_include_replace
+
     unix {
         CONFIG += create_libtool explicitlib
         host_build: \
@@ -210,6 +215,11 @@ unix|mingw {
             ltlib_replace.replace = $$QMAKE_LIBTOOL_LIBDIR
         ltlib_replace.CONFIG = path
         QMAKE_LIBTOOL_INSTALL_REPLACE += ltlib_replace
+        # drop -L/usr/lib in .prl files
+        prl_replace.match = "-L\$${libdir}"
+        prl_replace.replace = ""
+        prl_replace.CONFIG = path
+        QMAKE_PRL_INSTALL_REPLACE += prl_replace
     }
 }
 
