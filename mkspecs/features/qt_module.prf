@@ -192,10 +192,25 @@ unix|mingw {
         QMAKE_PKGCONFIG_DESCRIPTION = $$replace(TARGET, ^Qt, "Qt ") module
     QMAKE_PKGCONFIG_INSTALL_REPLACE += lib_replace
 
+    pkgconfig_include_replace.match = $$rplbase/include
+    pkgconfig_include_replace.replace = "\$$\\{includedir}"
+    pkgconfig_include_replace.CONFIG = path
+    QMAKE_PKGCONFIG_INSTALL_REPLACE += pkgconfig_include_replace
+
     unix {
         CONFIG += create_libtool explicitlib
         QMAKE_LIBTOOL_LIBDIR = $$qt_libdir
         QMAKE_LIBTOOL_INSTALL_REPLACE += lib_replace
+        # add '=' as sysroot in .la files
+        lafile_replace.match = "-L\$${libdir}"
+        lafile_replace.replace = "-L=\$$\\{libdir}"
+        lafile_replace.CONFIG = path
+        QMAKE_LIBTOOL_INSTALL_REPLACE += lafile_replace
+        # drop -L/usr/lib in .prl files
+        prl_replace.match = "-L\$${libdir}"
+        prl_replace.replace = ""
+        prl_replace.CONFIG = path
+        QMAKE_PRL_INSTALL_REPLACE += prl_replace
     }
 }
 
