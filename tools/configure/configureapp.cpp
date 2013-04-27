@@ -3393,8 +3393,8 @@ void Configure::generateQConfigPri()
         configStream << "    QT_ARCH = " << dictionary["QT_ARCH"] << endl;
         if (dictionary.contains("XQMAKESPEC") && !dictionary["XQMAKESPEC"].startsWith("wince")) {
             // FIXME: add detection
-            configStream << "    QMAKE_DEFAULT_LIBDIRS = /lib /usr/lib" << endl;
-            configStream << "    QMAKE_DEFAULT_INCDIRS = /usr/include /usr/local/include" << endl;
+            configStream << "    QMAKE_DEFAULT_LIBDIRS = $$[QT_SYSROOT]/lib $$[QT_SYSROOT]/usr/lib" << endl;
+            configStream << "    QMAKE_DEFAULT_INCDIRS = $$[QT_SYSROOT]/usr/include $$[QT_SYSROOT]/usr/local/include" << endl;
         }
         configStream << "}" << endl;
         configStream << "QT_CONFIG += " << qtConfig.join(' ') << endl;
