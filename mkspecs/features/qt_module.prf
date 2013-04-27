@@ -128,18 +128,30 @@ unix|win32-g++* {
       rplbase = $$dirname(_QMAKE_SUPER_CACHE_)/[^/][^/]*
    else: \
       rplbase = $$MODULE_BASE_OUTDIR
+   pkgconfig_include_replace.match = $$rplbase/include
+   pkgconfig_include_replace.replace = "\$$\\{includedir}"
+   pkgconfig_lib_replace.match = $$rplbase/lib
+   pkgconfig_lib_replace.replace = "\$$\\{libdir}"
    include_replace.match = $$rplbase/include
    include_replace.replace = $$[QT_INSTALL_HEADERS/raw]
    lib_replace.match = $$rplbase/lib
    lib_replace.replace = $$[QT_INSTALL_LIBS/raw]
-   QMAKE_PKGCONFIG_INSTALL_REPLACE += include_replace lib_replace
+   lafile_replace.match = $$rplbase
+   lafile_replace.replace = "=$$[QT_INSTALL_PREFIX/raw]"
+
+   !isEmpty(SYSROOT): \
+      rplbase = $$[SYSROOT] \
+      lafile_replace.match = $$rplbase \
+      lafile_replace.replace = "=" \
+
+   QMAKE_PKGCONFIG_INSTALL_REPLACE += pkgconfig_include_replace pkgconfig_lib_replace
    QMAKE_PRL_INSTALL_REPLACE += include_replace lib_replace
 }
 
 unix {
    CONFIG += create_libtool explicitlib
    QMAKE_LIBTOOL_LIBDIR = $$[QT_INSTALL_LIBS/raw]
-   QMAKE_LIBTOOL_INSTALL_REPLACE += include_replace lib_replace
+   QMAKE_LIBTOOL_INSTALL_REPLACE += lafile_replace
 }
 
 unix|win32-g++* {
