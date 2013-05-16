@@ -59,12 +59,14 @@ public:
     QOpenGLPaintDevice();
     explicit QOpenGLPaintDevice(const QSize &size);
     QOpenGLPaintDevice(int width, int height);
+    QOpenGLPaintDevice(int x, int y, int width, int height);
     virtual ~QOpenGLPaintDevice();
 
     int devType() const { return QInternal::OpenGL; }
     QPaintEngine *paintEngine() const;
 
     QOpenGLContext *context() const;
+    QPoint offset() const;
     QSize size() const;
     void setSize(const QSize &size);
     void setDevicePixelRatio(qreal devicePixelRatio);
