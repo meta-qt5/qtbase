@@ -270,6 +270,7 @@ public:
     QOpenGL2PaintEngineEx* q;
     QOpenGLEngineShaderManager* shaderManager;
     QOpenGLPaintDevice* device;
+    int x, y;
     int width, height;
     QOpenGLContext *ctx;
     EngineMode mode;
