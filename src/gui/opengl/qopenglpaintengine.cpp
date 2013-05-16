@@ -1978,7 +1978,10 @@ bool QOpenGL2PaintEngineEx::begin(QPaintDevice *pdev)
     for (int i = 0; i < QT_GL_VERTEX_ARRAY_TRACKED_COUNT; ++i)
         d->vertexAttributeArraysEnabledState[i] = false;
 
+    const QPoint offset = d->device->offset();
     const QSize sz = d->device->size();
+    d->x = offset.x();
+    d->y = offset.y();
     d->width = sz.width();
     d->height = sz.height();
     d->mode = BrushDrawingMode;
@@ -2066,7 +2069,7 @@ void QOpenGL2PaintEngineEx::ensureActive()
         d->device->ensureActiveTarget();
 
         d->transferMode(BrushDrawingMode);
-        glViewport(0, 0, d->width, d->height);
+        glViewport(d->x, d->y, d->width, d->height);
         d->needsSync = false;
         d->lastMaskTextureUsed = 0;
         d->shaderManager->setDirty();
@@ -2109,6 +2112,7 @@ void QOpenGL2PaintEngineExPrivate::updateClipScissorTest()
     if (bounds == QRect(0, 0, width, height)) {
         glDisable(GL_SCISSOR_TEST);
     } else {
+        bounds = QRect(bounds.x(), bounds.y(), bounds.width(), bounds.height());
         glEnable(GL_SCISSOR_TEST);
         setScissor(bounds);
     }
@@ -2117,14 +2121,14 @@ void QOpenGL2PaintEngineExPrivate::updateClipScissorTest()
 
 void QOpenGL2PaintEngineExPrivate::setScissor(const QRect &rect)
 {
-    const int left = rect.left();
+    const int left = rect.left() + x;
     const int width = rect.width();
     int bottom = height - (rect.top() + rect.height());
     if (device->paintFlipped()) {
         bottom = rect.top();
     }
+    bottom += y;
     const int height = rect.height();
-
     glScissor(left, bottom, width, height);
 }
 
