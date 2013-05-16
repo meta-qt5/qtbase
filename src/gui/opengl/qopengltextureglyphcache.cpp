@@ -268,7 +268,7 @@ void QOpenGLTextureGlyphCache::resizeTextureData(int width, int height)
     funcs.glBindFramebuffer(GL_FRAMEBUFFER, ctx->d_func()->current_fbo);
 
     if (pex != 0) {
-        glViewport(0, 0, pex->width, pex->height);
+        glViewport(pex->x, pex->y, pex->width, pex->height);
         pex->updateClipScissorTest();
     } else {
         m_blitProgram->disableAttributeArray(int(QT_VERTEX_COORDS_ATTR));
