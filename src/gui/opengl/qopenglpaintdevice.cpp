@@ -111,6 +111,7 @@ class QOpenGLPaintDevicePrivate
 public:
     QOpenGLPaintDevicePrivate(const QSize &size);
 
+    QPoint offset;
     QSize size;
     QOpenGLContext *ctx;
 
@@ -157,6 +158,12 @@ QOpenGLPaintDevice::QOpenGLPaintDevice(const QSize &size)
 QOpenGLPaintDevice::QOpenGLPaintDevice(int width, int height)
     : d_ptr(new QOpenGLPaintDevicePrivate(QSize(width, height)))
 {
+}
+
+QOpenGLPaintDevice::QOpenGLPaintDevice(int x, int y, int width, int height)
+    : d_ptr(new QOpenGLPaintDevicePrivate(QSize(width, height)))
+{
+    d_ptr->offset = QPoint(x,y);
 }
 
 /*!
@@ -226,6 +233,11 @@ QPaintEngine *QOpenGLPaintDevice::paintEngine() const
 QOpenGLContext *QOpenGLPaintDevice::context() const
 {
     return d_ptr->ctx;
+}
+
+QPoint QOpenGLPaintDevice::offset() const
+{
+    return d_ptr->offset;
 }
 
 /*!
