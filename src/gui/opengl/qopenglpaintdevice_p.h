@@ -65,6 +65,7 @@ public:
 
 public:
     QSize size;
+    QPoint offset;
     QOpenGLContext *ctx;
 
     qreal dpmx;
