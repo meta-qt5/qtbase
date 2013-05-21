@@ -147,6 +147,9 @@ void QOpenGLTextureGlyphCache::resizeTextureData(int width, int height)
         return;
     }
 
+    GLuint saveFbo;
+    glGetIntegerv(GL_FRAMEBUFFER_BINDING, &saveFbo);
+
     int oldWidth = m_textureResource->m_width;
     int oldHeight = m_textureResource->m_height;
 
@@ -265,7 +268,7 @@ void QOpenGLTextureGlyphCache::resizeTextureData(int width, int height)
     glDeleteTextures(1, &tmp_texture);
     glDeleteTextures(1, &oldTexture);
 
-    funcs.glBindFramebuffer(GL_FRAMEBUFFER, ctx->d_func()->current_fbo);
+    funcs.glBindFramebuffer(GL_FRAMEBUFFER, saveFbo);
 
     if (pex != 0) {
         glViewport(pex->x, pex->y, pex->width, pex->height);
