@@ -92,11 +92,4 @@ probase = $$relative_path($$_PRO_FILE_PWD_, $$dirname(_QMAKE_CONF_)/examples)
         allfiles -= doc
         !isEmpty(allfiles): warning("remaining files in $$_PRO_FILE_PWD_: $$allfiles")
     }
-
-    !equals(TEMPLATE, subdirs):!compile_examples {
-        TEMPLATE = aux
-        CONFIG -= have_target qt staticlib dll
-        SOURCES =
-        INSTALLS -= target
-    }
 }
