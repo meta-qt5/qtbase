@@ -64,7 +64,9 @@ QTsLibMouseHandler::QTsLibMouseHandler(const QString &key,
     qDebug() << "QTsLibMouseHandler" << key << specification;
     setObjectName(QLatin1String("TSLib Mouse Handler"));
 
-    QByteArray device = "/dev/input/event1";
+    QByteArray device = qgetenv("TSLIB_TSDEVICE");
+    if(device.isEmpty())
+       device = "/dev/input/event1";
     if (specification.startsWith("/dev/"))
         device = specification.toLocal8Bit();
 
