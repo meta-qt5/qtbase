@@ -181,11 +181,7 @@ GLuint QOpenGLTextureCache::bindTexture(QOpenGLContext *context, qint64 key, con
 
     QImage tx = image.convertToFormat(QImage::Format_ARGB32_Premultiplied);
 
-    // Performance could be improved by skipping qgl_byteSwapImage().
-    if (m_useByteSwapImage)
-        qgl_byteSwapImage(tx);
-
-    glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, tx.width(), tx.height(), 0, GL_RGBA, GL_UNSIGNED_BYTE, const_cast<const QImage &>(tx).bits());
+    glTexImage2D(GL_TEXTURE_2D, 0, GL_BGRA_EXT, tx.width(), tx.height(), 0, GL_BGRA_EXT, GL_UNSIGNED_BYTE, const_cast<const QImage &>(tx).bits());
 
     int cost = tx.width() * tx.height() * 4 / 1024;
     m_cache.insert(key, new QOpenGLCachedTexture(id, context), cost);
