@@ -1994,6 +1994,13 @@ while [ "$#" -gt 0 ]; do
             UNKNOWN_OPT=yes
         fi
         ;;
+    freetype)
+        if [ "$VAL" = "yes" ] || [ "$VAL" = "no" ] || [ "$VAL" = "system" ]; then
+            CFG_LIBFREETYPE="$VAL"
+        else
+            UNKNOWN_OPT=yes
+        fi
+        ;;
     gtkstyle)
         if [ "$VAL" = "yes" ] || [ "$VAL" = "no" ]; then
             CFG_QGTKSTYLE="$VAL"
