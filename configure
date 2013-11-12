@@ -3622,7 +3622,7 @@ static const char qt_configure_licensed_products_str [256 + 12] = "qt_lcnsprod=$
 static const char qt_configure_installation          [12+11]    = "qt_instdate=`date +%Y-%m-%d`";
 
 /* Installation Info */
-static const char qt_configure_prefix_path_strs[][256 + 12] = {
+static const char qt_configure_prefix_path_strs[][512 + 12] = {
 #ifndef QT_BUILD_QMAKE
     "qt_prfxpath=$QT_SYSROOT_PREFIX",
     "qt_docspath=$QT_SYSROOT_DOCS",
