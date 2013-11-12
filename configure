@@ -3825,6 +3825,8 @@ if true; then ###[ '!' -f "$outpath/bin/qmake" ];
 
     (cd "$outpath/qmake"; "$MAKE") || exit 2
 fi # Build qmake
+mv "$outpath/bin/qmake" "$outpath/bin/qmake-real"
+mv "$outpath/bin/qmake-native" "$outpath/bin/qmake"
 
 echo "Running configuration tests..."
 
