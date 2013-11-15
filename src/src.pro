@@ -203,7 +203,7 @@ qtConfig(gui) {
         }
     }
 }
-SUBDIRS += src_plugins
+SUBDIRS += src_plugins src_tools_uic
 
 nacl: SUBDIRS -= src_network src_testlib
 
