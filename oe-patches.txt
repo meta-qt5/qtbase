@@ -1,0 +1,52 @@
+7de3744 Add linux-oe-g++ platform
+  too OE specific, probably cannot be upstreamed
+eef6d0d qlibraryinfo: allow to set qt.conf from the outside using the environment
+  again very OE specific to read everything from environment (reusing the same
+  qmake from sstate and replacing all configured paths in it with qt.conf from
+  environment).
+6ada901 Add -external-hostbindir option
+  is a lot better for upstreaming (and it was already sort of approved by
+  Oswald) but in 5.2.0 I've noticed that he added something similar for
+  android builds
+e306b72 configureapp: Prefix default LIBDIRS and INCDIRS with SYSROOT
+  again a bit OE specific
+b4de3b2 qt_module: Fix pkgconfig replacement
+  prevents cross-compile unsafe -I/usr/include -L/usr/lib paths etc
+0af204f configure: don't export SYSTEM_VARIABLES to .qmake.vars
+  specific to linux-oe-g++
+02b1405 configure.prf: Allow to add extra arguments to make
+  OE specific for EXTRA_OEMAKE
+cb64125 configure: make pulseaudio, alsa, freetype a configurable option
+  upstreamable
+f6140ec cmake: Use OE_QMAKE_PATH_EXTERNAL_HOST_BINS to determine path to host binaries
+  Required for -external-hostbindir usage from CMake
+4b1d4a8 qmake is already built in qtbase-native
+  OE specific for native/target builds
+57e63c2 Allow building a separate qmake for the target
+  OE specific for native/target builds
+bf81316 qtbase: allow build of examples
+  OE configuration
+f326fd2 QOpenGLPaintDevice sub-area support
+  added functionality
+7bfffed Revert "Set PRIVATE includes variable to empty, not undefined."
+  trying to fix empty Qt5*_PRIVATE_INCLUDE_DIRS variables for CMake, e.g.
+  cmake/Qt5Quick/Qt5QuickConfig.cmake with 5.2.0:
+    set(Qt5Quick_PRIVATE_INCLUDE_DIRS "")
+  with 5.0.2:
+    set(Qt5Quick_PRIVATE_INCLUDE_DIRS
+        "${_qt5Quick_install_prefix}/include/qt5/QtQuick/${Qt5Quick_VERSION_STRING}"
+        "${_qt5Quick_install_prefix}/include/qt5/QtQuick/${Qt5Quick_VERSION_STRING}/QtQuick"
+    )
+
+Resolved patches:
+0017-enables-tslib-device-to-be-read-from-env-variable.patch
+  commit dbf3c559daba62d9411eb31a3204487397d41d44
+  Author: Daniel Giurcanu <gdanielgwork@googlemail.com>
+  Date:   Tue Dec 17 14:48:05 2013 +0100
+  tslib: Derive default device value from TSLIB_TSDEVICE environment variable
+
+0008-wayland-scanner-disable-silent-rules.patch
+  commit 2ff2a7c32d76b9e58b800f12469f112cfdb6ad3c
+  Author: Jan Arne Petersen <jan.petersen@kdab.com>
+  Date:   Fri Jul 19 14:35:19 2013 +0200
+  Fix wayland-scanner to work with CONFIG+=silent
