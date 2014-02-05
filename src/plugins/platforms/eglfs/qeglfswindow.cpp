@@ -87,6 +87,16 @@ void QEglFSWindow::create()
     if (m_flags.testFlag(Created))
         return;
 
+    static EGLSurface __singleWindowSurface;
+    if(QEglFSHooks::hooks() && !QEglFSHooks::hooks()->hasCapability(QPlatformIntegration::MultipleWindows) && (__singleWindowSurface))
+    {
+        m_surface = __singleWindowSurface;
+#ifdef QEGL_EXTRA_DEBUG
+    qWarning("Surface recreate request, re-using %x\n", m_surface);
+#endif
+       return;
+    }
+
     m_flags = Created;
     m_wid = newWId();
 
@@ -129,6 +139,11 @@ void QEglFSWindow::create()
     m_format = q_glFormatFromConfig(display, m_config);
 
     resetSurface();
+
+    if(QEglFSHooks::hooks() && !QEglFSHooks::hooks()->hasCapability(QPlatformIntegration::MultipleWindows))
+    {
+        __singleWindowSurface = m_surface;
+    }
 
     screen->setPrimarySurface(m_surface);
 
