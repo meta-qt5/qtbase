@@ -72,6 +72,16 @@ void QEglFSWindow::create()
 
     QEGLPlatformWindow::create();
 
+    static EGLSurface __singleWindowSurface;
+    if(QEglFSHooks::hooks() && !QEglFSHooks::hooks()->hasCapability(QPlatformIntegration::MultipleWindows) && (__singleWindowSurface))
+    {
+        m_surface = __singleWindowSurface;
+#ifdef QEGL_EXTRA_DEBUG
+    qWarning("Surface recreate request, re-using %x\n", m_surface);
+#endif
+       return;
+    }
+
     m_flags = Created;
 
     if (window()->type() == Qt::Desktop)
@@ -104,6 +114,11 @@ void QEglFSWindow::create()
     m_format = q_glFormatFromConfig(display, m_config, platformFormat);
 
     resetSurface();
+
+    if(QEglFSHooks::hooks() && !QEglFSHooks::hooks()->hasCapability(QPlatformIntegration::MultipleWindows))
+    {
+        __singleWindowSurface = m_surface;
+    }
 
     screen->setPrimarySurface(m_surface);
 
