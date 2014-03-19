@@ -50,6 +50,12 @@
 #include <QtCore/QVariant>
 #include <EGL/egl.h>
 
+// Undefine CursorShape from X.h, which is causing breakage in Qt::CursorShape in platformsupport/eglconvenience/
+// /usr/include/X11/X.h:#define CursorShape           0       /* largest size that can be displayed */
+#ifdef CursorShape
+#undef CursorShape
+#endif
+
 QT_BEGIN_NAMESPACE
 
 class QEGLPlatformScreen;
