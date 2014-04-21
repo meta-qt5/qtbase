@@ -37,7 +37,6 @@
 #include <qpa/qplatformwindow.h>
 #include <QOpenGLContext>
 #include <QtPlatformHeaders/QEGLNativeContext>
-#include <QDebug>
 
 QT_BEGIN_NAMESPACE
 
@@ -179,12 +178,6 @@ void QEGLPlatformContext::init(const QSurfaceFormat &format, QPlatformOpenGLCont
     if (m_eglContext == EGL_NO_CONTEXT) {
         qWarning("QEGLPlatformContext::init: eglError: %x, this: %p \n", eglGetError(), this);
         return;
-    }
-
-    static const bool printConfig = qgetenv("QT_QPA_EGLFS_DEBUG").toInt();
-    if (printConfig) {
-        qDebug() << "Created context for format" << format << "with config:";
-        q_printEglConfig(m_eglDisplay, m_eglConfig);
     }
 
     updateFormatFromGL();
