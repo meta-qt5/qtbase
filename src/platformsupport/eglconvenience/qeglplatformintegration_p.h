@@ -45,9 +45,9 @@
 // We mean it.
 //
 
+#include <QtCore/QVariant>
 #include <qpa/qplatformintegration.h>
 #include <qpa/qplatformnativeinterface.h>
-#include <QtCore/QVariant>
 #include <EGL/egl.h>
 
 // Undefine CursorShape from X.h, which is causing breakage in Qt::CursorShape in platformsupport/eglconvenience/
