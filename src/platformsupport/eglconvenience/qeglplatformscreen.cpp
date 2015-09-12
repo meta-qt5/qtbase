@@ -31,10 +31,10 @@
 **
 ****************************************************************************/
 
-#include "qeglplatformscreen_p.h"
-#include "qeglplatformwindow_p.h"
 #include <QtGui/qwindow.h>
 #include <qpa/qwindowsysteminterface.h>
+#include "qeglplatformscreen_p.h"
+#include "qeglplatformwindow_p.h"
 #include <QtPlatformSupport/private/qopenglcompositor_p.h>
 
 QT_BEGIN_NAMESPACE
