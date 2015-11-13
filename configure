@@ -3904,8 +3904,13 @@ if [ "$CFG_COMPILE_EXAMPLES" = "yes" ]; then
     QMAKE_CONFIG="$QMAKE_CONFIG compile_examples"
 fi
 
-shortxspec=`echo $XQMAKESPEC | sed "s,^${relpath}/mkspecs/,,"`
-shortspec=`echo $QMAKESPEC | sed "s,^${relpath}/mkspecs/,,"`
+if [ "$QT_CROSS_COMPILE" = "yes" ] ; then
+    shortxspec=linux-g++
+    shortspec=linux-g++
+else
+    shortxspec=`echo $XQMAKESPEC | sed "s,^${relpath}/mkspecs/,,"`
+    shortspec=`echo $QMAKESPEC | sed "s,^${relpath}/mkspecs/,,"`
+fi
 
 QT_CONFIGURE_STR_OFF=0
 
@@ -3938,7 +3943,11 @@ QT_CONFIGURE_STRS_ALL=$QT_CONFIGURE_STRS
 
 QT_CONFIGURE_STR_OFFSETS=
 QT_CONFIGURE_STRS=
-addConfStr "$CFG_SYSROOT"
+if [ "$QT_CROSS_COMPILE" = "yes" ] ; then
+    addConfStr ""
+else
+    addConfStr "$CFG_SYSROOT"
+fi
 addConfStr "$QT_REL_HOST_BINS"
 addConfStr "$QT_REL_HOST_LIBS"
 addConfStr "$QT_REL_HOST_DATA"
@@ -3949,6 +3958,12 @@ addConfStr "$shortspec"
 # generate qconfig.cpp
 #-------------------------------------------------------------------------------
 [ -d "$outpath/src/corelib/global" ] || mkdir -p "$outpath/src/corelib/global"
+
+if [ "$QT_CROSS_COMPILE" = "yes" ] ; then
+    QT_TARGET_PREFIX=$QT_EXT_PREFIX
+else
+    QT_TARGET_PREFIX=$QT_HOST_PREFIX
+fi
 
 cat > "$outpath/src/corelib/global/qconfig.cpp.new" <<EOF
 /* License Info */
@@ -3962,7 +3977,7 @@ static const char qt_configure_installation          [12+11]    = "qt_instdate=2
 static const char qt_configure_prefix_path_str       [512 + 12] = "qt_prfxpath=$QT_INSTALL_PREFIX";
 #ifdef QT_BUILD_QMAKE
 static const char qt_configure_ext_prefix_path_str   [512 + 12] = "qt_epfxpath=$QT_EXT_PREFIX";
-static const char qt_configure_host_prefix_path_str  [512 + 12] = "qt_hpfxpath=$QT_HOST_PREFIX";
+static const char qt_configure_host_prefix_path_str  [512 + 12] = "qt_hpfxpath=$QT_TARGET_PREFIX";
 #endif
 
 static const short qt_configure_str_offsets[] = {
