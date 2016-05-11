@@ -9,6 +9,11 @@ if (CMAKE_VERSION VERSION_LESS 3.0.0)
 endif()
 !!ENDIF
 
+if(NOT DEFINED OE_QMAKE_PATH_EXTERNAL_HOST_BINS)
+    message(WARNING "Skipping because OE_QMAKE_PATH_EXTERNAL_HOST_BINS is not defined")
+    return()
+endif()
+
 !!IF !isEmpty(CMAKE_USR_MOVE_WORKAROUND)
 !!IF !isEmpty(CMAKE_LIB_DIR_IS_ABSOLUTE)
 set(_qt5$${CMAKE_MODULE_NAME}_install_prefix \"$$[QT_INSTALL_PREFIX]\")
