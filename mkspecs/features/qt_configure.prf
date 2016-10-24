@@ -1576,7 +1576,8 @@ defineReplace(qtConfEvaluateSingleExpression) {
                     error("Expression '$$1' is accessing field '$$var' of non-local feature $${feature}.")
                 return($$result)
             }
-            error("Unknown feature object $${feature} in expression '$${1}'.")
+            warning("Unknown feature object $${feature} in expression '$${1}'.")
+            result = false
         }
         !qtConfCheckFeature($$feature): \
             error("Expression '$$1' is accessing non-emitted feature $${feature}.")
