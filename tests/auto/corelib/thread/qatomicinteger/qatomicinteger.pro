@@ -5,10 +5,8 @@ SUBDIRS=\
     char32_t \
     int \
     long \
-    qlonglong \
     qptrdiff \
     quintptr \
-    qulonglong \
     schar \
     short \
     uchar \
