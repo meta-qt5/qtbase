@@ -1066,6 +1066,9 @@ void tst_QString::acc_01()
 
 QT_WARNING_PUSH
 QT_WARNING_DISABLE_GCC("-Wformat-security")
+#ifdef __clang__
+QT_WARNING_DISABLE_CLANG("-Wformat-security")
+#endif
 
 void tst_QString::isNull()
 {
