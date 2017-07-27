@@ -35,7 +35,7 @@
 #include "tst_qvariant_common.h"
 
 #ifdef Q_OS_LINUX
-# include <pthread.h>
+# include <sched.h>
 #endif
 
 #include <algorithm>
@@ -366,7 +366,7 @@ protected:
             const char *nm = name.constData();
             int tp = qRegisterMetaType<Bar>(nm);
 #if defined(Q_OS_LINUX) && !defined(Q_OS_ANDROID)
-            pthread_yield();
+            sched_yield();
 #endif
             QMetaType info(tp);
             if (!info.isValid()) {
