@@ -78,6 +78,7 @@
 #include <stdlib.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <sched.h>
 #endif
 
 #include <memory>
@@ -2200,8 +2201,8 @@ public slots:
 
 #if defined(Q_OS_MAC)
         pthread_yield_np();
-#elif defined Q_OS_LINUX && !defined Q_OS_ANDROID
-        pthread_yield();
+#elif defined Q_OS_LINUX
+        sched_yield();
 #endif
         if (!sock->waitForConnected()) {
             networkTimeout = true;
