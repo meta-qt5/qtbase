@@ -46,7 +46,7 @@
 #include <private/qlocale_tools_p.h>
 #include <qnumeric.h>
 
-#if defined(Q_OS_LINUX) && !defined(__UCLIBC__)
+#if defined(Q_OS_LINUX) && defined(__GLIBC__)
 #    define QT_USE_FENV
 #endif
 
