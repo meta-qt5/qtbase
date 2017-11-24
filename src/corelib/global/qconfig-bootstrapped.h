@@ -88,7 +88,7 @@
 #define QT_FEATURE_futimes -1
 #define QT_FEATURE_library -1
 #ifdef __linux__
-# define QT_FEATURE_linkat 1
+# define QT_FEATURE_linkat -1
 #else
 # define QT_FEATURE_linkat -1
 #endif
