@@ -95,6 +95,17 @@ extern "C" NSString *NSTemporaryDirectory();
 #ifndef FICLONE
 #  define FICLONE       _IOW(0x94, 9, int)
 #endif
+
+// renameat2/statx features for non bootstrapped build
+#ifndef QT_BOOTSTRAPPED
+#ifdef __GLIBC_PREREQ
+# define QT_FEATURE_renameat2 (__GLIBC_PREREQ(2, 28) ? 1 : -1)
+# define QT_FEATURE_statx (__GLIBC_PREREQ(2, 28) ? 1 : -1)
+#else
+# define QT_FEATURE_renameat2 -1
+# define QT_FEATURE_statx -1
+#endif
+#endif
 #endif
 
 #if defined(Q_OS_ANDROID)
