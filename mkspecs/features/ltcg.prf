@@ -1,6 +1,6 @@
 static:no-static-ltcg {
     # Static library but no-static-ltcg enabled: skip LTCG
-} else: CONFIG(release, debug|release) {
+} else: CONFIG(release, debug|release):!host_build {
     separate_debug_info {
         # Evaluate single-$ variable references that have no valid value at mkspec loading time
         QMAKE_LFLAGS_LTCG_SEPARATE_DEBUG_INFO ~= s/\\$\\{/\$\$\{/
