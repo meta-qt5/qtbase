@@ -1,4 +1,4 @@
-CONFIG(release, debug|release) {
+CONFIG(release, debug|release):!host_build {
     # We need fat object files when creating static libraries on some platforms
     # so the linker will know to load a particular object from the library
     # in the first place. On others, we have special ar and nm to create the symbol
