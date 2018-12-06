@@ -55,6 +55,7 @@
 #include "QtCore/private/qglobal_p.h"
 #include <cmath>
 #include <limits>
+#include <sys/types.h>
 
 #if defined(Q_CC_MSVC)
 #  include <intrin.h>
