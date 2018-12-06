@@ -205,6 +205,13 @@ defineReplace(qtVariablesFromGCC) {
     return($$ret)
 }
 
+defineReplace(qtVariablesFromCLANG) {
+    ret = $$system("$$1 $$2 -E $$system_quote($$PWD/data/macros.cpp) \
+        <$$QMAKE_SYSTEM_NULL_DEVICE 2>$$QMAKE_SYSTEM_NULL_DEVICE", lines, ec)
+    !equals(ec, 0): qtCompilerErrror($$1, $$ret)
+    return($$ret)
+}
+
 isEmpty($${target_prefix}.COMPILER_MACROS) {
     msvc {
         clang_cl {
@@ -224,6 +231,8 @@ isEmpty($${target_prefix}.COMPILER_MACROS) {
         } else {
             vars = $$qtVariablesFromMSVC($$QMAKE_CXX)
         }
+    } else: clang {
+        vars = $$qtVariablesFromCLANG($$QMAKE_CXX, $$QMAKE_CXXFLAGS)
     } else: gcc|ghs {
         vars = $$qtVariablesFromGCC($$QMAKE_CXX)
     }
