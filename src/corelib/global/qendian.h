@@ -153,7 +153,7 @@ template <> inline Q_DECL_CONSTEXPR qint8 qbswap<qint8>(qint8 source)
 }
 
 // floating specializations
-template<typename Float>
+template<typename Float> Q_DECL_CONSTEXPR
 Float qbswapFloatHelper(Float source)
 {
     // memcpy call in qFromUnaligned is recognized by optimizer as a correct way of type prunning
@@ -162,17 +162,17 @@ Float qbswapFloatHelper(Float source)
     return qFromUnaligned<Float>(&temp);
 }
 
-template <> inline qfloat16 qbswap<qfloat16>(qfloat16 source)
+template <> inline Q_DECL_CONSTEXPR qfloat16 qbswap<qfloat16>(qfloat16 source)
 {
     return qbswapFloatHelper(source);
 }
 
-template <> inline float qbswap<float>(float source)
+template <> inline Q_DECL_CONSTEXPR float qbswap<float>(float source)
 {
     return qbswapFloatHelper(source);
 }
 
-template <> inline double qbswap<double>(double source)
+template <> inline Q_DECL_CONSTEXPR double qbswap<double>(double source)
 {
     return qbswapFloatHelper(source);
 }
