@@ -1252,16 +1252,6 @@ bool QFileSystemEngine::renameFile(const QFileSystemEntry &source, const QFileSy
     if (Q_UNLIKELY(srcPath.isEmpty() || tgtPath.isEmpty()))
         return emptyFileEntryWarning(), false;
 
-#if defined(RENAME_NOREPLACE) && QT_CONFIG(renameat2)
-    if (renameat2(AT_FDCWD, srcPath, AT_FDCWD, tgtPath, RENAME_NOREPLACE) == 0)
-        return true;
-
-    // We can also get EINVAL for some non-local filesystems.
-    if (errno != EINVAL) {
-        error = QSystemError(errno, QSystemError::StandardLibraryError);
-        return false;
-    }
-#endif
 #if defined(Q_OS_DARWIN) && defined(RENAME_EXCL)
     if (__builtin_available(macOS 10.12, iOS 10, tvOS 10, watchOS 3, *)) {
         if (renameatx_np(AT_FDCWD, srcPath, AT_FDCWD, tgtPath, RENAME_EXCL) == 0)
