@@ -1223,16 +1223,6 @@ bool QFileSystemEngine::renameFile(const QFileSystemEntry &source, const QFileSy
     Q_CHECK_FILE_NAME(srcPath, false);
     Q_CHECK_FILE_NAME(tgtPath, false);
 
-#if defined(RENAME_NOREPLACE) && QT_CONFIG(renameat2)
-    if (renameat2(AT_FDCWD, srcPath, AT_FDCWD, tgtPath, RENAME_NOREPLACE) == 0)
-        return true;
-
-    // We can also get EINVAL for some non-local filesystems.
-    if (errno != EINVAL) {
-        error = QSystemError(errno, QSystemError::StandardLibraryError);
-        return false;
-    }
-#endif
 #if defined(Q_OS_DARWIN) && defined(RENAME_EXCL)
     if (renameatx_np(AT_FDCWD, srcPath, AT_FDCWD, tgtPath, RENAME_EXCL) == 0)
         return true;
