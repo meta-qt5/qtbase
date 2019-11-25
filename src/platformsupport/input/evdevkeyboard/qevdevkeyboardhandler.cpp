@@ -58,6 +58,11 @@
 #include <linux/input.h>
 #endif
 
+#ifndef input_event_sec
+#define input_event_sec time.tv_sec
+#define input_event_usec time.tv_usec
+#endif
+
 QT_BEGIN_NAMESPACE
 
 Q_LOGGING_CATEGORY(qLcEvdevKey, "qt.qpa.input")
@@ -150,7 +155,10 @@ void QEvdevKeyboardHandler::switchLed(int led, bool state)
     qCDebug(qLcEvdevKey, "switchLed %d %d", led, int(state));
 
     struct ::input_event led_ie;
-    ::gettimeofday(&led_ie.time, 0);
+    struct timeval tval;
+    ::gettimeofday(&tval, 0);
+    led_ie.input_event_sec = tval.tv_sec;
+    led_ie.input_event_usec = tval.tv_usec;
     led_ie.type = EV_LED;
     led_ie.code = led;
     led_ie.value = state;
