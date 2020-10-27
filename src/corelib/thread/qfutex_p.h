@@ -76,6 +76,9 @@ QT_END_NAMESPACE
 #  include <unistd.h>
 #  include <asm/unistd.h>
 #  include <linux/futex.h>
+#  if !defined(__NR_futex) && defined(__NR_futex_time64)
+#    define __NR_futex __NR_futex_time64
+#  endif
 #  define QT_ALWAYS_USE_FUTEX
 
 // if not defined in linux/futex.h
