@@ -40,6 +40,7 @@
 #include <QtCore/qplugin.h>
 #include <QtCore/qstringview.h>
 
+#include <limits>
 #include <math.h>
 #include <stdio.h>
 
