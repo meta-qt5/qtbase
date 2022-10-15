@@ -344,7 +344,7 @@ qint64 RCCFileInfo::writeDataBlob(RCCResourceLibrary &lib, qint64 offset,
     // some info
     if (text || pass1) {
         lib.writeString("  // ");
-        lib.writeByteArray(m_fileInfo.absoluteFilePath().toLocal8Bit());
+        lib.writeByteArray(m_fileInfo.baseName().toLocal8Bit());
         lib.writeString("\n  ");
     }
 
