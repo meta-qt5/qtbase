@@ -12,15 +12,6 @@
 #  endif
 #endif
 
-#ifdef _LARGEFILE64_SOURCE
-#  ifndef _LARGEFILE_SOURCE
-#    define _LARGEFILE_SOURCE 1
-#  endif
-#  ifdef _FILE_OFFSET_BITS
-#    undef _FILE_OFFSET_BITS
-#  endif
-#endif
-
 #ifndef QT_BOOTSTRAPPED
 #  include <qconfig.h>
 #endif
